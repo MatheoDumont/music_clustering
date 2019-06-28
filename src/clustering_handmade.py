@@ -17,11 +17,6 @@ def euclidean(x1, x2):
     return math.sqrt(sum)
 
 
-def np_euclidean(x1, x2):
-    arr = np.power(np.array(x2) - np.array(x1), 2)
-    return np.sqrt(np.sum(arr))
-
-
 def matrice_distance(data):
     """
     Compute enclidean distance between each element 
@@ -114,7 +109,6 @@ def get_playlist_max(linkage, starting_point, size=10):
 
             if i != last_index and i not in playlist:
 
-
                 if maxi is None:
                     maxi = i
                 elif maxi is not None and array[maxi] < array[i]:
@@ -166,10 +160,10 @@ def test_perf():
     x2 = np.random.uniform(1, 15, (10000, 4))
 
     perf_eucl = perf(euclidean, x1, x2)
-    perf_nb_eucl = perf(np_euclidean, x1, x2)
+    # perf_nb_eucl = perf(np_euclidean, x1, x2)
 
     print(sum(perf_eucl))
-    print(sum(perf_nb_eucl))
+    # print(sum(perf_nb_eucl))
 
     # print(euclidean([2, 3, 1], [2, 6, 4]))
 
@@ -178,24 +172,16 @@ if __name__ == '__main__':
     datas = pd.read_csv('data.csv', engine='python',
                         delimiter=' ', header=0, encoding="utf8")
 
-    features = "filename zero_cr spectral_centroid spectral_rollof chroma_frequency".split()
-
-    # print(datas[features[1:]])
+    features = list(datas)
+   
     data_to_use = datas[features[1:]]
-    # print(np.array(data_to_use))
+    
     songs = [datas[['filename']].iloc[i].filename
              for i in range(len(datas[['filename']]))]
 
-    # print(songs)
-    # print(datas)
-    """
-    On saute de 42 "manger c'est tricher" à  2 "presque rien" 
-    alors qu'il n'y a pas de correspondance proche entre eux 
-    """
-
     mat = matrice_distance(np.array(data_to_use))
-    # print(mat[0])
-    i_of_song = get_playlist_max(mat, 0)
+    
+    i_of_song = get_playlist_min(mat, 0)
     print(i_of_song)
 
     res = [songs[i] for i in i_of_song]

@@ -1,12 +1,11 @@
 import math
 import struct
-import winsound
-from io import BytesIO
 import codecs
 import wave
-import winsound
 
+# get meta infos from music file
 from tinytag import TinyTag
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -26,11 +25,11 @@ def test_from_tinytag():
 
 
 if __name__ == '__main__':
-    morceau = "Alestorm - You are a Pirate.m4a"
+    path = 'E:/music/'
+    morceau = "Alestorm - You are a Pirate.wav"
+    arctic = "Arctic Monkeys - Do I Wanna Know.m4a"
 
-    wave_op = wave.open(morceau)
-    print(wave_op.getsampwidth())
-
+    # https://fr.wikipedia.org/wiki/Waveform_Audio_File_Format
     with open(morceau, "rb") as file:
 
         # FileTypeBlocID

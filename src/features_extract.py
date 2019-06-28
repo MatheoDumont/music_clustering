@@ -14,13 +14,18 @@ if __name__ == '__main__':
 
     os.chdir(path_to_music)
 
-    with open(working_path+"data.csv", "w", encoding="utf8") as data:
+    with open(working_path+"data_2.csv", "w", encoding="utf8") as data:
         writer = csv.writer(data, delimiter=' ',)
+
+        for i in range(20):
+            features.append(f'mfcc{i}')
+
         writer.writerow(features)
 
         # print(l.load(os.listdir('.')[0]))
         # print(os.listdir('.')[0])
         i = 1
+
 
         for music in os.listdir('.'):
 
@@ -29,9 +34,11 @@ if __name__ == '__main__':
             spectral_centroid = np.mean(l.feature.spectral_centroid(y, sr=sr))
             spectral_rollof = np.mean(l.feature.spectral_rolloff(y, sr=sr))
             chroma_frequency = np.mean(l.feature.chroma_stft(y, sr=sr))
+            mfccs = [np.mean(el) for el in l.feature.mfcc(y, sr=sr)]
+
+            writer.writerow(np.append([music, zero_cr, spectral_centroid,
+                             spectral_rollof, chroma_frequency], mfccs))
 
             print(f"{i} -- {music}")
             i += 1
 
-            writer.writerow([music, zero_cr, spectral_centroid,
-                             spectral_rollof, chroma_frequency])
