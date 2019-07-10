@@ -3,15 +3,20 @@ import librosa as l
 
 import csv
 import os
+import time
 
 
+"""
+benchmark:
+    1001.79 sec en mono-processeur
+"""
 path_to_music = "E:/music/"
 working_path = "E:/python/music_classification/"
 
 features = "filename zero_cr spectral_centroid spectral_rollof chroma_frequency".split()
 
 if __name__ == '__main__':
-
+    t = time.time()
     os.chdir(path_to_music)
 
     with open(working_path+"data_2.csv", "w", encoding="utf8") as data:
@@ -22,10 +27,7 @@ if __name__ == '__main__':
 
         writer.writerow(features)
 
-        # print(l.load(os.listdir('.')[0]))
-        # print(os.listdir('.')[0])
         i = 1
-
 
         for music in os.listdir('.'):
 
@@ -41,4 +43,6 @@ if __name__ == '__main__':
 
             print(f"{i} -- {music}")
             i += 1
+
+    print(time.time() - t)
 
